@@ -1,8 +1,6 @@
 import 'dart:io';
-import 'dart:ui';
-import 'package:advance_pdf_viewer_fork/src/zoom.dart';
+import 'package:flutter_plugin_pdf_viewer/src/zoom.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter/painting.dart';
 
 class PDFPage extends StatefulWidget {
   final String? imgPath;
@@ -12,9 +10,9 @@ class PDFPage extends StatefulWidget {
   final double? minScale;
   final double? maxScale;
   final double? panLimit;
-  PDFPage(
+  const PDFPage(
     this.imgPath,
-    this.num, {
+    this.num, {super.key, 
     this.onZoomChanged,
     this.zoomSteps = 3,
     this.minScale = 1.0,

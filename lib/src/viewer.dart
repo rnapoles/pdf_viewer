@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:advance_pdf_viewer_fork/advance_pdf_viewer_fork.dart';
+import 'package:flutter_plugin_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 enum IndicatorPosition { topLeft, topRight, bottomLeft, bottomRight }
@@ -30,8 +30,8 @@ class PDFViewer extends StatefulWidget {
     void Function({int? page}) animateToPage,
   )? navigationBuilder;
 
-  PDFViewer(
-      {Key? key,
+  const PDFViewer(
+      {super.key,
       required this.document,
       this.scrollDirection,
       this.lazyLoad = true,
@@ -48,9 +48,9 @@ class PDFViewer extends StatefulWidget {
       this.zoomSteps,
       this.minScale,
       this.maxScale,
-      this.panLimit})
-      : super(key: key);
+      this.panLimit});
 
+  @override
   _PDFViewerState createState() => _PDFViewerState();
 }
 
@@ -70,10 +70,11 @@ class _PDFViewerState extends State<PDFViewer> {
     _pageController = widget.controller ?? PageController();
     _pageNumber = _pageController!.initialPage + 1;
     if (!widget.lazyLoad) {
-      if (mounted)
+      if (mounted) {
         setState(() {
           _isLoading = true;
         });
+      }
       Future.delayed(Duration.zero, () async {
         await widget.document.preloadPages(
           onZoomChanged: onZoomChanged,
@@ -83,10 +84,11 @@ class _PDFViewerState extends State<PDFViewer> {
           panLimit: widget.panLimit,
         );
         _pages = widget.document.pages;
-        if (mounted)
+        if (mounted) {
           setState(() {
             _isLoading = false;
           });
+        }
       });
     }
   }
@@ -149,11 +151,11 @@ class _PDFViewerState extends State<PDFViewer> {
   }
 
   _animateToPage({int? page}) {
-    _pageController!.animateToPage(page != null ? page : _pageNumber! - 1, duration: animationDuration, curve: animationCurve);
+    _pageController!.animateToPage(page ?? _pageNumber! - 1, duration: animationDuration, curve: animationCurve);
   }
 
   _jumpToPage({int? page}) {
-    _pageController!.jumpToPage(page != null ? page : _pageNumber! - 1);
+    _pageController!.jumpToPage(page ?? _pageNumber! - 1);
   }
 
   Widget _drawIndicator() {
@@ -246,7 +248,7 @@ class _PDFViewerState extends State<PDFViewer> {
                   _animateToPage,
                 )
               : BottomAppBar(
-                  child: new Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Expanded(

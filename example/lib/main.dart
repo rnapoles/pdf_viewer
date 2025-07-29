@@ -1,10 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:advance_pdf_viewer_fork/advance_pdf_viewer_fork.dart';
+import 'package:flutter_plugin_pdf_viewer/advance_pdf_viewer.dart';
 
 void main() => runApp(App());
 
 class App extends StatelessWidget {
+  const App({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,13 +15,15 @@ class App extends StatelessWidget {
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
   bool _isLoading = true;
-  PDFDocument document;
+  late PDFDocument document;
   bool _usePDFListView = false;
 
   @override
@@ -32,7 +35,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     document.clearImageCache();
-    document = null;
+    //document = null;
     super.dispose();
   }
 

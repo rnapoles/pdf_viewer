@@ -4,11 +4,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:advance_pdf_viewer_fork/src/page.dart';
+import 'package:flutter_plugin_pdf_viewer/src/page.dart';
 import 'package:path_provider/path_provider.dart';
 
 class PDFDocument {
-  static const MethodChannel _channel = const MethodChannel('flutter_plugin_pdf_viewer');
+  static const MethodChannel _channel = MethodChannel('flutter_plugin_pdf_viewer');
 
   String? _filePath;
   int? count;
@@ -90,7 +90,7 @@ class PDFDocument {
     assert(page > 0);
     if (_preloaded && pages.isNotEmpty) return pages[page - 1];
     var data = await _channel.invokeMethod('getPage', {'filePath': _filePath, 'pageNumber': page});
-    return new PDFPage(
+    return PDFPage(
       data,
       page,
       onZoomChanged: onZoomChanged,
@@ -105,7 +105,7 @@ class PDFDocument {
     assert(page > 0);
     if (_imagePreloaded && images![page - 1] != null) return images![page - 1];
     var data = await _channel.invokeMethod('getPage', {'filePath': _filePath, 'pageNumber': page});
-    return new Image.file(File(data));
+    return Image.file(File(data));
   }
 
   Future<void> preloadPages({
@@ -116,7 +116,7 @@ class PDFDocument {
     final double? panLimit,
   }) async {
     int countvar = 1;
-    if (_preloaded || pages.length != 0) return;
+    if (_preloaded || pages.isNotEmpty) return;
     pages = List.filled(count!, null, growable: true);
     await Future.forEach<int?>(List.filled(count!, null, growable: true), (i) async {
       final data = await _channel.invokeMethod('getPage', {'filePath': _filePath, 'pageNumber': countvar});
@@ -151,7 +151,7 @@ class PDFDocument {
   Stream<PDFPage?> getAll({final Function(double)? onZoomChanged}) {
     return Future.forEach<PDFPage?>(List.filled(count!, null, growable: true), (i) async {
       final data = await _channel.invokeMethod('getPage', {'filePath': _filePath, 'pageNumber': i});
-      return new PDFPage(
+      return PDFPage(
         data,
         1,
         onZoomChanged: onZoomChanged,
@@ -160,7 +160,7 @@ class PDFDocument {
   }
 
   void clearImageCache() {
-    if (images != null && images!.length != 0) {
+    if (images != null && images!.isNotEmpty) {
       for (var i = 0; i < images!.length; i++) {
         if (images![i] != null) images![i]!.image.evict();
       }

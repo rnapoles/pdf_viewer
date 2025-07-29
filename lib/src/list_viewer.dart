@@ -1,4 +1,4 @@
-import 'package:advance_pdf_viewer_fork/advance_pdf_viewer_fork.dart';
+import 'package:flutter_plugin_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:flutter/material.dart';
 
 class PDFListViewer extends StatefulWidget {
@@ -8,11 +8,11 @@ class PDFListViewer extends StatefulWidget {
   double? _loadingPageHeight;
 
   PDFListViewer({
-    Key? key,
+    super.key,
     required this.document,
     this.preload = false,
     double loadingPageHeight = 400,
-  }) : super(key: key) {
+  }) {
     _loadingPageHeight = loadingPageHeight;
   }
 
@@ -77,7 +77,7 @@ class _PDFListViewerState extends State<PDFListViewer> {
               if (snapShot.hasData) {
                 return snapShot.data as Image;
               } else {
-                return Container(
+                return SizedBox(
                   height: widget._loadingPageHeight,
                   width: double.maxFinite,
                   child: Center(child: CircularProgressIndicator()),
