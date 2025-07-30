@@ -5,7 +5,7 @@ homepage: https://github.com/cyc2303/pdf_viewer
 
 environment:
   sdk: ^3.8.1
-  flutter: '>=3.3.0'
+#  flutter: '>=3.3.0'
 
 dependencies:
   flutter:

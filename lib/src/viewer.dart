@@ -115,7 +115,7 @@ class _PDFViewerState extends State<PDFViewer> {
     super.dispose();
   }
 
-  onZoomChanged(double scale) {
+  void onZoomChanged(double scale) {
     if (scale != 1.0) {
       setState(() {
         _swipeEnabled = false;
@@ -127,7 +127,7 @@ class _PDFViewerState extends State<PDFViewer> {
     }
   }
 
-  _loadPage() async {
+  Future<void> _loadPage() async {
     var num = _pageNumber!;
     if (_pages![num - 1] != null) return;
     if (!widget.lazyLoad) return;
@@ -150,11 +150,11 @@ class _PDFViewerState extends State<PDFViewer> {
     }
   }
 
-  _animateToPage({int? page}) {
+  void _animateToPage({int? page}) {
     _pageController!.animateToPage(page ?? _pageNumber! - 1, duration: animationDuration, curve: animationCurve);
   }
 
-  _jumpToPage({int? page}) {
+  void _jumpToPage({int? page}) {
     _pageController!.jumpToPage(page ?? _pageNumber! - 1);
   }
 
@@ -180,7 +180,7 @@ class _PDFViewerState extends State<PDFViewer> {
     }
   }
 
-  _pickPage() {
+  void _pickPage() {
     showDialog<int>(
         context: context,
         builder: (BuildContext context) {

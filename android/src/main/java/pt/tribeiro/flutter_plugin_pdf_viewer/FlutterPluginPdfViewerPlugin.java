@@ -58,6 +58,7 @@ public class FlutterPluginPdfViewerPlugin implements MethodCallHandler, FlutterP
     }*/
 
     public void onAttachedToEngine(Context applicationContext, BinaryMessenger messenger) {
+
         synchronized (initializationLock) {
             if(flutterChannel != null) {
                 return;

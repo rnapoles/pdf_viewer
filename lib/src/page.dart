@@ -44,9 +44,9 @@ class _PDFPageState extends State<PDFPage> {
     }
   }
 
-  _isRepainting() => _repainting;
+  bool _isRepainting() => _repainting;
 
-  _repaint() async {
+  Future<void> _repaint() async {
     if(_repainting) await Future.doWhile(() => _isRepainting());
     _repainting = true;
     if(_resolver != null && _listener != null) _resolver!.removeListener(_listener!);
